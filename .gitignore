@@ -1,1 +1,19 @@
+# Virtual Environment
+venv/
+env/
 .env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Other common Python ignores
+*.log
+.DS_Store
