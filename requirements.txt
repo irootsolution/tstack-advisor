@@ -12,3 +12,6 @@ pycparser==2.22
 PyJWT==2.8.0
 six==1.16.0
 treelib==1.7.0
+fastapi==0.110.0
+uvicorn==0.29.0
+openai==1.13.3
