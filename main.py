@@ -27,13 +27,15 @@ async def recommend_tech_stack(query: TechQuery):
 
         Provide a brief reason for each choice.
         """
-        client = openai.OpenAI()
+        client = openai.OpenAI(
+            api_key=os.getenv("OPENAI_API_KEY")
+        )
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "system", "content": "You are a software architect helping users choose tech stacks."},
                     {"role": "user", "content": prompt}]
         )
     
-        return {"recommendation": response["choices"][0]["message"]["content"]}
+        return {"recommendation": response.choices[0].message.content}
     except Exception as e:
         return {"error": str(e)}
