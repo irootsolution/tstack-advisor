@@ -1,12 +1,12 @@
 import os
-import openai
 from fastapi import FastAPI
 from pydantic import BaseModel
 from dotenv import load_dotenv
+import google.generativeai as genai
 
 # Load API Key from .env file
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 app = FastAPI()
 
@@ -27,15 +27,13 @@ async def recommend_tech_stack(query: TechQuery):
 
         Provide a brief reason for each choice.
         """
-        client = openai.OpenAI(
-            api_key=os.getenv("OPENAI_API_KEY")
-        )
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "system", "content": "You are a software architect helping users choose tech stacks."},
-                    {"role": "user", "content": prompt}]
-        )
+        
+        # Initialize Gemini model
+        model = genai.GenerativeModel('gemini-2.0-flash')
+        
+        # Generate response
+        response = model.generate_content(prompt)
     
-        return {"recommendation": response.choices[0].message.content}
+        return {"recommendation": response.text}
     except Exception as e:
         return {"error": str(e)}
